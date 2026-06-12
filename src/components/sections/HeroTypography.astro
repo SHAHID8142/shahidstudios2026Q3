@@ -17,7 +17,7 @@ import { COPY } from '@constants/copy';
       ></span>
       <span class="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-accent)]"></span>
     </span>
-    <span class="text-xs font-medium tracking-wider text-[var(--color-accent)] uppercase"
+    <span class="text-xs font-light tracking-wider text-[var(--color-accent)] uppercase"
       >{COPY.hero.availabilityStatus}</span
     >
   </div>
@@ -26,19 +26,22 @@ import { COPY } from '@constants/copy';
   <p class="hero-reveal mb-4 overline">{COPY.hero.greeting}</p>
 
   <!-- Name -->
-  <h1 class="mb-4 leading-[1.1] text-balance" id="hero-name">
+  <h1
+    class="mb-2 text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.1] font-light text-balance"
+    id="hero-name"
+  >
     {COPY.hero.name}
   </h1>
 
   <!-- Role -->
   <h2
-    class="text-secondary hero-reveal mb-4 max-w-2xl font-[var(--font-display)] font-medium text-[var(--text-heading-lg)]"
+    class="text-secondary hero-reveal mb-4 max-w-2xl text-2xl font-[var(--font-display)] font-light sm:text-3xl"
   >
     {COPY.hero.role}
   </h2>
 
   <!-- Tagline -->
-  <p class="text-muted hero-reveal mb-12 max-w-xl text-[var(--text-heading-sm)]">
+  <p class="text-muted hero-reveal mb-10 max-w-xl text-base font-light sm:text-lg">
     {COPY.hero.tagline}
   </p>
 </div>

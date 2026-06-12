@@ -32,7 +32,7 @@ import { COPY } from '@constants/copy';
         class="h-10 w-10 transition-transform group-hover:scale-110"
         style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
       />
-      <span class="hidden text-lg font-[var(--font-display)] font-semibold tracking-tight sm:block">
+      <span class="hidden text-lg font-[var(--font-display)] font-medium tracking-tight sm:block">
         {COPY.site.name}
       </span>
     </a>
@@ -57,7 +57,7 @@ import { COPY } from '@constants/copy';
     <!-- Desktop CTA -->
     <a
       href={NAV_CTA.href}
-      class="hidden items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-text-on-accent)] transition-all hover:scale-105 hover:shadow-[var(--shadow-accent-glow)] active:scale-95 lg:inline-flex"
+      class="hidden items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-6 py-3 text-sm font-medium text-[var(--color-text-on-accent)] transition-all hover:scale-105 hover:shadow-[var(--shadow-accent-glow)] active:scale-95 lg:inline-flex"
       style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
     >
       {NAV_CTA.label}
@@ -112,7 +112,7 @@ import { COPY } from '@constants/copy';
           >
             <a
               href={link.href}
-              class="text-3xl font-[var(--font-display)] font-semibold tracking-tight transition-colors hover:text-[var(--color-accent)]"
+              class="text-3xl font-[var(--font-display)] font-medium tracking-tight transition-colors hover:text-[var(--color-accent)]"
               style={`transition-duration: var(--duration-fast);`}
             >
               {link.label}
@@ -124,7 +124,7 @@ import { COPY } from '@constants/copy';
 
     <a
       href={NAV_CTA.href}
-      class="mt-12 translate-y-6 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-lg font-semibold text-[var(--color-text-on-accent)] opacity-0 transition-all"
+      class="mt-12 translate-y-6 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-lg font-medium text-[var(--color-text-on-accent)] opacity-0 transition-all"
       style={`transition-delay: ${100 + NAV_LINKS.length * 60}ms; transition-duration: var(--duration-slow); transition-timing-function: var(--ease-out-expo);`}
     >
       {NAV_CTA.label}
@@ -225,6 +225,15 @@ import { COPY } from '@constants/copy';
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isOpen) toggleMenu();
+    });
+
+    // Initial Navbar Reveal Animation
+    import('gsap').then(({ default: gsap }) => {
+      gsap.fromTo(
+        ['#site-header .group', '#site-header ul li', '#site-header a[href="/contact"]'],
+        { y: -30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: 'power3.out', delay: 0.5 }
+      );
     });
   });
 </script>
