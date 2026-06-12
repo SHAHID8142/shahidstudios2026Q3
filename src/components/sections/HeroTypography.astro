@@ -1,0 +1,85 @@
+---
+/**
+ * HeroTypography — The core messaging for the Hero section.
+ * Includes the pulsing availability badge, name, role, and tagline.
+ */
+import { COPY } from '@constants/copy';
+---
+
+<div class="relative z-10 max-w-4xl">
+  <!-- Availability Badge -->
+  <div
+    class="hero-reveal mb-8 inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-accent-muted)] bg-[var(--color-accent-muted)] px-4 py-2"
+  >
+    <span class="relative flex h-2 w-2">
+      <span
+        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent)] opacity-75"
+      ></span>
+      <span class="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-accent)]"></span>
+    </span>
+    <span class="text-xs font-medium tracking-wider text-[var(--color-accent)] uppercase"
+      >{COPY.hero.availabilityStatus}</span
+    >
+  </div>
+
+  <!-- Greeting -->
+  <p class="hero-reveal mb-4 overline">{COPY.hero.greeting}</p>
+
+  <!-- Name -->
+  <h1 class="mb-4 leading-[1.1] text-balance" id="hero-name">
+    {COPY.hero.name}
+  </h1>
+
+  <!-- Role -->
+  <h2
+    class="text-secondary hero-reveal mb-4 max-w-2xl font-[var(--font-display)] font-medium text-[var(--text-heading-lg)]"
+  >
+    {COPY.hero.role}
+  </h2>
+
+  <!-- Tagline -->
+  <p class="text-muted hero-reveal mb-12 max-w-xl text-[var(--text-heading-sm)]">
+    {COPY.hero.tagline}
+  </p>
+</div>
+
+<style>
+  /* Base styles for split characters to prevent layout shift before animation */
+  :global(#hero-name .split-char) {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { splitTextToChars } from '@/utils/splitText';
+
+  document.addEventListener('astro:page-load', () => {
+    const nameEl = document.getElementById('hero-name');
+    if (!nameEl) return;
+
+    // Split the text into characters
+    splitTextToChars(nameEl);
+
+    // Initial load animation timeline
+    const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+
+    // 1. Reveal characters with stagger
+    tl.to('#hero-name .split-char', {
+      y: 0,
+      opacity: 1,
+      duration: 1.2,
+      stagger: 0.04,
+      delay: 0.2,
+    });
+
+    // 2. Reveal other hero elements
+    tl.fromTo(
+      '.hero-reveal',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.1 },
+      '-=0.8' // Overlap with name reveal
+    );
+  });
+</script>

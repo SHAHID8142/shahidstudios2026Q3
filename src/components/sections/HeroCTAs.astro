@@ -1,0 +1,63 @@
+---
+/**
+ * HeroCTAs — Primary and secondary calls to action for the Hero section.
+ * Includes interactive hover states and glow effects.
+ */
+import { COPY } from '@constants/copy';
+---
+
+<div class="hero-cta-reveal relative z-10 flex flex-wrap items-center gap-4">
+  <!-- Primary CTA -->
+  <a
+    href="/work"
+    class="group relative inline-flex items-center gap-3 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-sm font-semibold text-[var(--color-text-on-accent)] transition-all hover:scale-105 active:scale-95"
+    style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+  >
+    <span class="relative z-10">{COPY.hero.cta}</span>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      class="relative z-10 transition-transform group-hover:translate-x-1"
+      style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+    >
+      <path
+        d="M3 8h10M9 4l4 4-4 4"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+
+    <!-- Glow effect -->
+    <div
+      class="absolute inset-0 rounded-[var(--radius-full)] bg-[var(--color-accent)] opacity-0 blur-md transition-opacity group-hover:opacity-40"
+      style={`transition-duration: var(--duration-normal);`}
+    >
+    </div>
+  </a>
+
+  <!-- Secondary CTA -->
+  <a
+    href="/contact"
+    class="inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-border-dark-hover)] bg-[var(--color-bg-dark-surface)]/50 px-8 py-4 text-sm font-semibold text-[var(--color-text-primary-on-dark)] backdrop-blur-sm transition-all hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+    style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+  >
+    {COPY.hero.ctaSecondary}
+  </a>
+</div>
+
+<script>
+  import gsap from 'gsap';
+
+  document.addEventListener('astro:page-load', () => {
+    // Reveal CTAs after typography
+    gsap.fromTo(
+      '.hero-cta-reveal',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, delay: 1.2, ease: 'expo.out' }
+    );
+  });
+</script>

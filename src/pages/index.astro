@@ -4,76 +4,12 @@
  * Each section component is imported and composed here.
  */
 import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
 import { COPY } from '@constants/copy';
 ---
 
 <BaseLayout>
-  <!-- Hero Section -->
-  <section id="hero" class="section-dark relative flex min-h-dvh items-center overflow-hidden">
-    <div class="relative z-10 container">
-      <!-- Availability Badge -->
-      <div
-        class="mb-8 inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-accent-muted)] bg-[var(--color-accent-muted)] px-4 py-2"
-      >
-        <span class="h-2 w-2 animate-pulse rounded-full bg-[var(--color-accent)]"></span>
-        <span class="text-xs font-medium text-[var(--color-accent)]"
-          >{COPY.hero.availabilityStatus}</span
-        >
-      </div>
-
-      <!-- Name & Role -->
-      <p class="mb-4 overline">{COPY.hero.greeting}</p>
-      <h1 class="mb-6 max-w-4xl">
-        <span class="block">{COPY.hero.name}</span>
-      </h1>
-      <p
-        class="text-secondary mb-4 max-w-2xl font-[var(--font-display)] font-medium text-[var(--text-heading-md)]"
-      >
-        {COPY.hero.role}
-      </p>
-      <p class="text-secondary mb-12 max-w-xl text-[var(--text-heading-sm)]">
-        {COPY.hero.tagline}
-      </p>
-
-      <!-- CTAs -->
-      <div class="flex flex-wrap gap-4">
-        <a
-          href="/work"
-          class="inline-flex items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-sm font-semibold text-[var(--color-text-on-accent)] transition-all hover:scale-105 hover:shadow-[var(--shadow-accent-glow)] active:scale-95"
-          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-        >
-          {COPY.hero.cta}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M3 8h10M9 4l4 4-4 4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-        </a>
-        <a
-          href="/contact"
-          class="inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-border-dark-hover)] px-8 py-4 text-sm font-semibold text-[var(--color-text-primary-on-dark)] transition-all hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-        >
-          {COPY.hero.ctaSecondary}
-        </a>
-      </div>
-    </div>
-
-    <!-- Hero background gradient -->
-    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-      <div
-        class="absolute top-1/4 -right-1/4 h-[600px] w-[600px] rounded-full bg-[var(--color-accent)] opacity-[0.03] blur-[120px]"
-      >
-      </div>
-      <div
-        class="absolute -bottom-1/4 -left-1/4 h-[400px] w-[400px] rounded-full bg-[var(--color-accent)] opacity-[0.02] blur-[100px]"
-      >
-      </div>
-    </div>
-  </section>
+  <Hero />
 
   <!-- Placeholder sections — will be replaced with real components -->
   <section
