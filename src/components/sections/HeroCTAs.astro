@@ -4,90 +4,21 @@
  * Includes interactive hover states and glow effects.
  */
 import { COPY } from '@constants/copy';
+import PremiumCTA from '../ui/PremiumCTA.astro';
 ---
 
 <div class="hero-cta-reveal relative z-10 flex flex-wrap items-center gap-4">
   <!-- Primary CTA -->
-  <a
-    href="/work"
-    class="magnetic-btn group relative inline-flex items-center gap-3 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-sm font-light text-[var(--color-text-on-accent)] transition-colors"
-    style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-  >
-    <span class="relative z-10">{COPY.hero.cta}</span>
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden="true"
-      class="relative z-10 transition-transform group-hover:translate-x-1"
-      style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-    >
-      <path
-        d="M3 8h10M9 4l4 4-4 4"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"></path>
-    </svg>
-
-    <!-- Glow effect -->
-    <div
-      class="absolute inset-0 rounded-[var(--radius-full)] bg-[var(--color-accent)] opacity-0 blur-md transition-opacity group-hover:opacity-40"
-      style={`transition-duration: var(--duration-normal);`}
-    >
-    </div>
-  </a>
+  <PremiumCTA href="/work" label={COPY.hero.cta} variant="primary" />
 
   <!-- Secondary CTA -->
-  <a
-    href="/contact"
-    class="magnetic-btn inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-border-dark-hover)] bg-[var(--color-bg-dark-surface)]/50 px-8 py-4 text-sm font-light text-[var(--color-text-primary-on-dark)] backdrop-blur-sm transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-    style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-  >
-    {COPY.hero.ctaSecondary}
-  </a>
+  <PremiumCTA href="/contact" label={COPY.hero.ctaSecondary} variant="secondary" icon={false} />
 </div>
 
 <script>
   import gsap from 'gsap';
 
   document.addEventListener('astro:page-load', () => {
-    // Magnetic Button Animation
-    const magneticBtns = document.querySelectorAll('.magnetic-btn');
-
-    magneticBtns.forEach((btn) => {
-      const el = btn as HTMLElement;
-
-      el.addEventListener('mousemove', (e) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        gsap.to(el, {
-          x: x * 0.4,
-          y: y * 0.4,
-          duration: 0.6,
-          ease: 'power3.out',
-        });
-
-        // Parallax inner content if needed
-        const icon = el.querySelector('svg');
-        if (icon) {
-          gsap.to(icon, { x: x * 0.2, y: y * 0.2, duration: 0.6, ease: 'power3.out' });
-        }
-      });
-
-      el.addEventListener('mouseleave', () => {
-        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
-
-        const icon = el.querySelector('svg');
-        if (icon) {
-          gsap.to(icon, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
-        }
-      });
-    });
-
     // Reveal CTAs after typography
     gsap.fromTo(
       '.hero-cta-reveal',

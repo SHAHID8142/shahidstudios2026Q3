@@ -1,0 +1,139 @@
+---
+/**
+ * PremiumCTA.astro
+ * An awwwards-style animated button component.
+ * Uses a dynamic tag based on whether href is provided.
+ */
+export interface Props {
+  href?: string;
+  label: string;
+  variant?: 'primary' | 'secondary';
+  class?: string;
+  icon?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  id?: string;
+  style?: string | Record<string, any>;
+}
+
+const {
+  href,
+  label,
+  variant = 'primary',
+  class: className = '',
+  icon = true,
+  type,
+  id,
+  ...rest
+} = Astro.props;
+
+const isPrimary = variant === 'primary';
+const Tag = href ? 'a' : 'button';
+
+const baseClasses =
+  'magnetic-premium-btn group relative inline-flex items-center justify-center overflow-hidden rounded-full font-light tracking-wide transition-all duration-500 ease-[var(--ease-out-expo)]';
+const sizeClasses = 'px-8 py-4 text-sm';
+const primaryClasses =
+  'bg-[var(--color-accent)] text-[var(--color-text-on-accent)] border border-transparent';
+const secondaryClasses =
+  'bg-transparent text-[var(--color-text-primary-on-dark)] border border-[var(--color-border-dark-hover)] hover:border-[var(--color-accent)]';
+
+const combinedClasses = `${baseClasses} ${sizeClasses} ${isPrimary ? primaryClasses : secondaryClasses} ${className}`;
+---
+
+<Tag href={href} type={type} id={id} class={combinedClasses} {...rest}>
+  <!-- Hover Background Layer -->
+  <span
+    class={`absolute inset-0 z-0 translate-y-full rounded-full transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0 ${
+      isPrimary ? 'bg-white' : 'bg-[var(--color-accent)]'
+    }`}></span>
+
+  <!-- Content Wrapper -->
+  <span
+    class={`relative z-10 flex items-center gap-2 overflow-hidden transition-colors duration-500 ${
+      isPrimary
+        ? 'group-hover:text-[var(--color-bg-dark)]'
+        : 'group-hover:text-[var(--color-text-on-accent)]'
+    }`}
+  >
+    <!-- Text Rolling Effect -->
+    <span class="relative flex h-[1.2em] flex-col items-center justify-center overflow-hidden">
+      <span
+        class="inline-block transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-full"
+        >{label}</span
+      >
+      <span
+        class="absolute inline-block translate-y-full transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
+        >{label}</span
+      >
+    </span>
+
+    <!-- Arrow Icon -->
+    {
+      icon && (
+        <span class="relative flex h-4 w-4 items-center overflow-hidden">
+          <svg
+            class="absolute transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-[150%] group-hover:-translate-y-[150%]"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4 12L12 4M12 4H6M12 4V10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <svg
+            class="absolute -translate-x-[150%] translate-y-[150%] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-0 group-hover:translate-y-0"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4 12L12 4M12 4H6M12 4V10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      )
+    }
+  </span>
+</Tag>
+
+<script>
+  import gsap from 'gsap';
+
+  document.addEventListener('astro:page-load', () => {
+    const magneticBtns = document.querySelectorAll('.magnetic-premium-btn');
+
+    magneticBtns.forEach((btn) => {
+      const el = btn as HTMLElement;
+
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        gsap.to(el, {
+          x: x * 0.4,
+          y: y * 0.4,
+          duration: 0.6,
+          ease: 'power3.out',
+        });
+      });
+
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
+      });
+    });
+  });
+</script>

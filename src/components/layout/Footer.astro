@@ -5,6 +5,7 @@
  */
 import { COPY } from '@constants/copy';
 import { SOCIAL_LINKS, CONTACT_INFO } from '@constants/social';
+import PremiumCTA from '../ui/PremiumCTA.astro';
 ---
 
 <footer class="section-dark border-t border-[var(--color-border-dark)]">
@@ -141,13 +142,12 @@ import { SOCIAL_LINKS, CONTACT_INFO } from '@constants/social';
             style={`transition-duration: var(--duration-fast);`}
             aria-label="Email for newsletter"
           />
-          <button
+          <PremiumCTA
             type="submit"
-            class="rounded-[var(--radius-md)] bg-[var(--color-accent)] px-4 py-2.5 text-sm font-medium text-[var(--color-text-on-accent)] transition-all hover:shadow-[var(--shadow-accent-glow)] active:scale-95"
-            style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-          >
-            {COPY.footer.newsletter.submit}
-          </button>
+            label={COPY.footer.newsletter.submit}
+            icon={false}
+            class="!px-6 !py-2.5"
+          />
         </form>
       </div>
     </div>

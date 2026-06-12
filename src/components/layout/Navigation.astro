@@ -6,6 +6,7 @@
  */
 import { NAV_LINKS, NAV_CTA } from '@constants/navigation';
 import { COPY } from '@constants/copy';
+import PremiumCTA from '../ui/PremiumCTA.astro';
 ---
 
 <header
@@ -55,21 +56,7 @@ import { COPY } from '@constants/copy';
     </ul>
 
     <!-- Desktop CTA -->
-    <a
-      href={NAV_CTA.href}
-      class="hidden items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-6 py-3 text-sm font-medium text-[var(--color-text-on-accent)] transition-all hover:scale-105 hover:shadow-[var(--shadow-accent-glow)] active:scale-95 lg:inline-flex"
-      style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
-    >
-      {NAV_CTA.label}
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path
-          d="M3 8h10M9 4l4 4-4 4"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-    </a>
+    <PremiumCTA href={NAV_CTA.href} label={NAV_CTA.label} class="hidden lg:inline-flex" />
 
     <!-- Mobile Menu Toggle -->
     <button
@@ -122,13 +109,12 @@ import { COPY } from '@constants/copy';
       }
     </ul>
 
-    <a
+    <PremiumCTA
       href={NAV_CTA.href}
-      class="mt-12 translate-y-6 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-lg font-medium text-[var(--color-text-on-accent)] opacity-0 transition-all"
+      label={NAV_CTA.label}
+      class="mobile-nav-item mt-12 translate-y-6 opacity-0"
       style={`transition-delay: ${100 + NAV_LINKS.length * 60}ms; transition-duration: var(--duration-slow); transition-timing-function: var(--ease-out-expo);`}
-    >
-      {NAV_CTA.label}
-    </a>
+    />
   </div>
 </header>
 
