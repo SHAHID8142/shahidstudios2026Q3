@@ -1,0 +1,100 @@
+---
+/**
+ * BaseLayout — Root layout wrapping every page.
+ * Handles: SEO head, font loading, Lenis smooth scroll, View Transitions,
+ * global GSAP setup, Navigation, and Footer.
+ */
+import Navigation from '@components/layout/Navigation.astro';
+import Footer from '@components/layout/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+import { COPY } from '@constants/copy';
+import '@/styles/global.css';
+
+interface Props {
+  /** Page title — prepended to site name */
+  title?: string;
+  /** Meta description for SEO */
+  description?: string;
+  /** OG image path */
+  ogImage?: string;
+  /** Additional class for <main> element */
+  mainClass?: string;
+}
+
+const {
+  title,
+  description = COPY.site.description,
+  ogImage = '/images/og-default.jpg',
+  mainClass = '',
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} — ${COPY.site.name}`
+  : `${COPY.site.name} — ${COPY.site.tagline}`;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={COPY.site.keywords.join(', ')} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={COPY.site.name} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/images/logos/logo-mark-inline.svg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- View Transitions -->
+    <ClientRouter />
+  </head>
+
+  <body>
+    <Navigation />
+
+    <main id="main-content" class={mainClass}>
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Lenis Smooth Scroll + GSAP Init -->
+    <script>
+      import { initLenis } from '@/lib/lenis';
+
+      /** Initialize smooth scroll on page load */
+      document.addEventListener('astro:page-load', () => {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          initLenis();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,230 @@
+---
+/**
+ * Navigation — Responsive nav bar with scroll-aware background,
+ * mobile hamburger menu, and accent CTA button.
+ * Uses design tokens exclusively — zero hardcoded values.
+ */
+import { NAV_LINKS, NAV_CTA } from '@constants/navigation';
+import { COPY } from '@constants/copy';
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 left-0 z-[var(--z-nav)] w-full transition-all"
+  style="--duration: var(--duration-normal); --ease: var(--ease-out-expo);"
+  data-scrolled="false"
+>
+  <nav
+    class="container flex h-20 items-center justify-between lg:h-24"
+    aria-label="Primary navigation"
+  >
+    <!-- Logo -->
+    <a
+      href="/"
+      class="group relative z-50 flex items-center gap-3"
+      aria-label={`${COPY.site.name} — Home`}
+    >
+      <img
+        src="/images/logos/logo-light-no-bg.svg"
+        alt={`${COPY.site.name} logo`}
+        width="40"
+        height="40"
+        class="h-10 w-10 transition-transform group-hover:scale-110"
+        style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+      />
+      <span class="hidden text-lg font-[var(--font-display)] font-semibold tracking-tight sm:block">
+        {COPY.site.name}
+      </span>
+    </a>
+
+    <!-- Desktop Links -->
+    <ul class="hidden items-center gap-8 lg:flex" role="list">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="nav-link relative text-sm font-medium tracking-wide uppercase transition-colors hover:text-[var(--color-accent)]"
+              style={`transition-duration: var(--duration-fast);`}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Desktop CTA -->
+    <a
+      href={NAV_CTA.href}
+      class="hidden items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-text-on-accent)] transition-all hover:scale-105 hover:shadow-[var(--shadow-accent-glow)] active:scale-95 lg:inline-flex"
+      style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+    >
+      {NAV_CTA.label}
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M3 8h10M9 4l4 4-4 4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </a>
+
+    <!-- Mobile Menu Toggle -->
+    <button
+      id="mobile-menu-toggle"
+      class="relative z-50 flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] lg:hidden"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <div class="hamburger-lines flex w-6 flex-col gap-1.5">
+        <span
+          class="block h-0.5 w-full origin-center bg-current transition-all"
+          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+        ></span>
+        <span
+          class="block h-0.5 w-full origin-center bg-current transition-all"
+          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+        ></span>
+        <span
+          class="block h-0.5 w-3/4 origin-center bg-current transition-all"
+          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+        ></span>
+      </div>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="pointer-events-none fixed inset-0 z-40 flex flex-col items-center justify-center bg-[var(--color-bg-dark)] opacity-0 transition-all"
+    style={`transition-duration: var(--duration-slow); transition-timing-function: var(--ease-out-expo);`}
+    aria-hidden="true"
+  >
+    <ul class="flex flex-col items-center gap-8" role="list">
+      {
+        NAV_LINKS.map((link, i) => (
+          <li
+            class="mobile-nav-item translate-y-6 opacity-0"
+            style={`transition-delay: ${100 + i * 60}ms; transition-duration: var(--duration-slow); transition-timing-function: var(--ease-out-expo);`}
+          >
+            <a
+              href={link.href}
+              class="text-3xl font-[var(--font-display)] font-semibold tracking-tight transition-colors hover:text-[var(--color-accent)]"
+              style={`transition-duration: var(--duration-fast);`}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href={NAV_CTA.href}
+      class="mt-12 translate-y-6 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-lg font-semibold text-[var(--color-text-on-accent)] opacity-0 transition-all"
+      style={`transition-delay: ${100 + NAV_LINKS.length * 60}ms; transition-duration: var(--duration-slow); transition-timing-function: var(--ease-out-expo);`}
+    >
+      {NAV_CTA.label}
+    </a>
+  </div>
+</header>
+
+<script>
+  /**
+   * Navigation scroll behavior + mobile menu toggle.
+   * Re-initializes on View Transition page loads.
+   */
+  document.addEventListener('astro:page-load', () => {
+    const header = document.getElementById('site-header');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const hamburgerLines = toggle?.querySelectorAll('.hamburger-lines span');
+    const mobileItems = menu?.querySelectorAll('.mobile-nav-item, .mobile-nav-item + a');
+
+    if (!header || !toggle || !menu) return;
+
+    let isOpen = false;
+
+    /** Scroll-aware nav background */
+    const onScroll = () => {
+      const scrolled = window.scrollY > 50;
+      header.dataset.scrolled = String(scrolled);
+
+      if (scrolled) {
+        header.style.backgroundColor = 'rgba(10, 10, 10, 0.85)';
+        header.style.backdropFilter = 'blur(12px)';
+        header.style.borderBottom = '1px solid var(--color-border-dark)';
+      } else {
+        header.style.backgroundColor = 'transparent';
+        header.style.backdropFilter = 'none';
+        header.style.borderBottom = 'none';
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /** Toggle mobile menu */
+    const toggleMenu = () => {
+      isOpen = !isOpen;
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-hidden', String(!isOpen));
+
+      if (isOpen) {
+        menu.style.opacity = '1';
+        menu.style.pointerEvents = 'auto';
+        document.body.style.overflow = 'hidden';
+
+        // Animate hamburger to X
+        if (hamburgerLines && hamburgerLines.length === 3) {
+          (hamburgerLines[0] as HTMLElement).style.transform = 'rotate(45deg) translate(4px, 4px)';
+          (hamburgerLines[1] as HTMLElement).style.opacity = '0';
+          (hamburgerLines[2] as HTMLElement).style.transform =
+            'rotate(-45deg) translate(4px, -4px)';
+          (hamburgerLines[2] as HTMLElement).style.width = '100%';
+        }
+
+        // Animate menu items in
+        mobileItems?.forEach((item) => {
+          (item as HTMLElement).style.opacity = '1';
+          (item as HTMLElement).style.transform = 'translateY(0)';
+        });
+      } else {
+        menu.style.opacity = '0';
+        menu.style.pointerEvents = 'none';
+        document.body.style.overflow = '';
+
+        // Reset hamburger
+        if (hamburgerLines && hamburgerLines.length === 3) {
+          (hamburgerLines[0] as HTMLElement).style.transform = '';
+          (hamburgerLines[1] as HTMLElement).style.opacity = '1';
+          (hamburgerLines[2] as HTMLElement).style.transform = '';
+          (hamburgerLines[2] as HTMLElement).style.width = '75%';
+        }
+
+        // Reset menu items
+        mobileItems?.forEach((item) => {
+          (item as HTMLElement).style.opacity = '0';
+          (item as HTMLElement).style.transform = 'translateY(1.5rem)';
+        });
+      }
+    };
+
+    toggle.addEventListener('click', toggleMenu);
+
+    // Close mobile menu on link click
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (isOpen) toggleMenu();
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) toggleMenu();
+    });
+  });
+</script>

@@ -1,0 +1,165 @@
+---
+/**
+ * Home Page — Main landing page with all sections.
+ * Each section component is imported and composed here.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { COPY } from '@constants/copy';
+---
+
+<BaseLayout>
+  <!-- Hero Section -->
+  <section id="hero" class="section-dark relative flex min-h-dvh items-center overflow-hidden">
+    <div class="relative z-10 container">
+      <!-- Availability Badge -->
+      <div
+        class="mb-8 inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-accent-muted)] bg-[var(--color-accent-muted)] px-4 py-2"
+      >
+        <span class="h-2 w-2 animate-pulse rounded-full bg-[var(--color-accent)]"></span>
+        <span class="text-xs font-medium text-[var(--color-accent)]"
+          >{COPY.hero.availabilityStatus}</span
+        >
+      </div>
+
+      <!-- Name & Role -->
+      <p class="mb-4 overline">{COPY.hero.greeting}</p>
+      <h1 class="mb-6 max-w-4xl">
+        <span class="block">{COPY.hero.name}</span>
+      </h1>
+      <p
+        class="text-secondary mb-4 max-w-2xl font-[var(--font-display)] font-medium text-[var(--text-heading-md)]"
+      >
+        {COPY.hero.role}
+      </p>
+      <p class="text-secondary mb-12 max-w-xl text-[var(--text-heading-sm)]">
+        {COPY.hero.tagline}
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/work"
+          class="inline-flex items-center gap-2 rounded-[var(--radius-full)] bg-[var(--color-accent)] px-8 py-4 text-sm font-semibold text-[var(--color-text-on-accent)] transition-all hover:scale-105 hover:shadow-[var(--shadow-accent-glow)] active:scale-95"
+          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+        >
+          {COPY.hero.cta}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-border-dark-hover)] px-8 py-4 text-sm font-semibold text-[var(--color-text-primary-on-dark)] transition-all hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          style={`transition-duration: var(--duration-normal); transition-timing-function: var(--ease-out-expo);`}
+        >
+          {COPY.hero.ctaSecondary}
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero background gradient -->
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div
+        class="absolute top-1/4 -right-1/4 h-[600px] w-[600px] rounded-full bg-[var(--color-accent)] opacity-[0.03] blur-[120px]"
+      >
+      </div>
+      <div
+        class="absolute -bottom-1/4 -left-1/4 h-[400px] w-[400px] rounded-full bg-[var(--color-accent)] opacity-[0.02] blur-[100px]"
+      >
+      </div>
+    </div>
+  </section>
+
+  <!-- Placeholder sections — will be replaced with real components -->
+  <section
+    id="trusted-by"
+    class="section-dark border-t border-[var(--color-border-dark)] py-[var(--space-section)]"
+  >
+    <div class="container">
+      <p class="mb-8 text-center overline">Trusted By</p>
+      <p class="text-muted text-center">Client logos coming soon</p>
+    </div>
+  </section>
+
+  <section id="about" class="section-light py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.about.overline}</p>
+      <h2 class="mb-8 max-w-3xl">{COPY.about.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.about.bio}</p>
+    </div>
+  </section>
+
+  <section id="services" class="section-dark py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.services.overline}</p>
+      <h2 class="mb-4">{COPY.services.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.services.subheading}</p>
+    </div>
+  </section>
+
+  <section id="portfolio" class="section-light py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.portfolio.overline}</p>
+      <h2 class="mb-4">{COPY.portfolio.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.portfolio.subheading}</p>
+    </div>
+  </section>
+
+  <section id="skills" class="section-dark py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">Skills & Tech Stack</p>
+      <h2>Tools of the Trade</h2>
+    </div>
+  </section>
+
+  <section id="pricing" class="section-light py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.pricing.overline}</p>
+      <h2 class="mb-4">{COPY.pricing.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.pricing.subheading}</p>
+    </div>
+  </section>
+
+  <section id="testimonials" class="section-dark py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.testimonials.overline}</p>
+      <h2>{COPY.testimonials.heading}</h2>
+    </div>
+  </section>
+
+  <section id="faq" class="section-light py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.faq.overline}</p>
+      <h2 class="mb-4">{COPY.faq.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.faq.subheading}</p>
+    </div>
+  </section>
+
+  <section id="resume" class="section-dark py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.resume.overline}</p>
+      <h2>{COPY.resume.heading}</h2>
+    </div>
+  </section>
+
+  <section id="blog-preview" class="section-light py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.blog.overline}</p>
+      <h2 class="mb-4">{COPY.blog.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.blog.subheading}</p>
+    </div>
+  </section>
+
+  <section id="contact" class="section-dark py-[var(--space-section)]">
+    <div class="container">
+      <p class="mb-4 overline">{COPY.contact.overline}</p>
+      <h2 class="mb-4">{COPY.contact.heading}</h2>
+      <p class="text-secondary max-w-2xl">{COPY.contact.subheading}</p>
+    </div>
+  </section>
+</BaseLayout>
